@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "message_content":"Hey fellow nature lovers! 🍁 Just wanted to share my love for autumn and all the wonderful things that come with it. The rustling leaves, cozy sweaters, and the enchanting colors make this season truly magical. What's your favorite thing about autumn? Let's celebrate the beauty of this season together!",
+        "comments":[
+            {
+                "id": 1,
+                "message": "Absolutely agree, AutumnEnthusiast! 🍂 There's something special about the crisp air and the changing colors. My favorite part has to be the sound of leaves crunching beneath my boots during a peaceful walk in the woods. Pure bliss!"  
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "message_content":"I'm all about the leaf piles! 🍃🍂 Jumping into a big pile of colorful leaves brings out the kid in me every time. It's like nature's playground. Anyone else guilty of reliving their childhood during fall?",
+        "comments":[
+            {
+                "id": 2,
+                "message": "this is comment serasdas2"  
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "message_content":"LeafPileExplorer, guilty as charged! 😄 There's an undeniable joy in the simple act of jumping into a pile of leaves. It's like a burst of happiness. Keep embracing that playful spirit!",
+        "comments":[
+            {
+                "id": 3,
+                "message": "this is comment serasdas2" 
+            }
+        ]
+    }
+]
