@@ -28,7 +28,6 @@ export default function Dashboard({navigation}) {
                     <Text style={styles.logout_text}>Logout</Text>
                 </Pressable>
             </View>
-
             <View style={styles.message_container}>
                 <View style={styles.message_count_container}>
                     <Text style={styles.message_count_text}>
@@ -38,14 +37,12 @@ export default function Dashboard({navigation}) {
                 <Pressable style={styles.create_message_button}>
                     <Text style={styles.create_message_button_text}>Create Message</Text>
                 </Pressable>
-
                 <View style={styles.message_list}>
                     {
-                        message_list.map((message_data)=>(
+                        message_list.map((message_data)=>
                             <ImageItem key={message_data.id} message_data={message_data} />
-                        ))
+                        )
                     }
-
                 </View>
             </View>
         </ScrollView>
@@ -131,54 +128,4 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         fontFamily: "Poppins-Medium",
     },
-    message_list:{
-        width: "100%",
-    },
-    message_item: {
-        borderColor: "#DCE6FF",
-        borderWidth: 1,
-        borderRadius: 6,
-        width: "100%",
-        display: "block",
-        padding: 20
-    },
-    message_text: {
-        color: "#152C61",
-        fontSize: 16,
-        fontWeight: "300",
-        fontFamily: "Poppins-Light",
-        marginBottom: 8
-    },
-    message_actions_container:{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        flexWrap: "wrap"
-    },
-    comment_button: {
-
-    },
-    comment_count_text: {
-
-    },
-    comment_count: {
-
-    },
-    time_ago_container: {
-        display: "flex",
-        flexDirection: "row"
-    },
-    message_action: {
-        marginRight: 8,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    message_action_text: {
-        color: "#707070",
-        fontSize: 16,
-        fontFamily: "Poppins-Regular",
-    }
-    
-    
 });
