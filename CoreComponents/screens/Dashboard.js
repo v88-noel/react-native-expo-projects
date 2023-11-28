@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Button, Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image, ScrollView  } from 'react-native';
+import wall_data from "../assets/data.json";
 import ImageItem from './components/message_item';
 import { useFonts } from "expo-font";
 
 let ScreenHeight = Dimensions.get("window").height;
 
 export default function Dashboard({navigation}) {
+    const [message_list, setMessageList] = useState(wall_data) 
 
     const [fontsLoaded] = useFonts({
 		"Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -30,7 +32,7 @@ export default function Dashboard({navigation}) {
             <View style={styles.message_container}>
                 <View style={styles.message_count_container}>
                     <Text style={styles.message_count_text}>
-                       <Text style={styles.number_of_message}>0 </Text>messages arranges by latest posted
+                       <Text style={styles.number_of_message}>{message_list.length} </Text>messages arranges by latest posted
                     </Text>
                 </View>       
                 <Pressable style={styles.create_message_button}>
@@ -38,10 +40,12 @@ export default function Dashboard({navigation}) {
                 </Pressable>
 
                 <View style={styles.message_list}>
-                    <ImageItem />
-                    <ImageItem />
-                    <ImageItem />
-                    <ImageItem />
+                    {
+                        message_list.map((message_data)=>(
+                            <ImageItem key={message_data.id} message_data={message_data} />
+                        ))
+                    }
+
                 </View>
             </View>
         </ScrollView>
