@@ -3,10 +3,13 @@ import { Button, Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image
 
 let ScreenHeight = Dimensions.get("window").height;
 
-export default function message_item() {
+export default function message_item({message_data}) {
+    
+
+
     return (
         <View style={styles.message_item}>
-            <Text style={styles.message_text}>this is sparta message 2</Text>
+            <Text style={styles.message_text}>{message_data.message_content}</Text>
 
             <View style={styles.message_actions_container}>
                 <Pressable style={[styles.comment_button, styles.message_action]}>
@@ -24,7 +27,7 @@ export default function message_item() {
                         fadeDuration={0}
                         style={{ width: 30, height: 30 }}
                     />
-                    <Text style={[styles.message_action_text]}>Edit</Text>
+                    <Text style={[styles.message_action_text, styles.edit_message_text_action ]}>Edit</Text>
                 </Pressable>
                 <Pressable style={[styles.comment_button, styles.message_action]}>
                     <Image
@@ -149,7 +152,10 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-start",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+    },
+    edit_message_text_action: {
+        color: "#2C6BFF"
     },
     comment_button: {
 
@@ -159,6 +165,13 @@ const styles = StyleSheet.create({
     },
     comment_count: {
 
+    },
+    comment_author:{
+        color: "rgba(0, 0, 0, 0.60)",
+        fontFamily: "Poppins-Medium",
+        fontSize: 16,
+        fontWeight: "500",
+        fontStyle: "normal"
     },
     time_ago_container: {
         display: "flex",
