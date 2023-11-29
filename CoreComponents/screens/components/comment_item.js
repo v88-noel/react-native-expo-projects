@@ -1,14 +1,19 @@
 import React, {useState} from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from 'react-native';
 
-export default function CommentItem({comment_data, updateComment, message_id}) {
+export default function CommentItem({comment_data, updateComment, message_id, setConfirmationModalVisible, setModalType, setCommentIDToDelete}) {
     const [is_editing_message, setEditingMessage] = useState(false);
     const [update_comment_input_value, setUpdateCommentInputValue] = useState(comment_data.comment);
-
 
     const onUpdateComment = () => {
         updateComment(message_id, comment_data.id, update_comment_input_value);
         setEditingMessage(false);
+    }
+
+    const onShowDeleteCommentModal = () => {
+        setConfirmationModalVisible(true);
+        setCommentIDToDelete(comment_data.id);
+        setModalType("comment");
     }
 
     return (
@@ -26,7 +31,7 @@ export default function CommentItem({comment_data, updateComment, message_id}) {
                                 />
                                 <Text style={[styles.comment_action_text, styles.edit_comment_text_action ]}>Edit</Text>
                             </Pressable>
-                            <Pressable style={[styles.comment_button, styles.comment_action]}>
+                            <Pressable style={[styles.comment_button, styles.comment_action]} onPress={onShowDeleteCommentModal}>
                                 <Image
                                     source={require("../../assets/action_icons/delete.png")}
                                     fadeDuration={0}
