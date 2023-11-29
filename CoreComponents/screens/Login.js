@@ -39,7 +39,9 @@ export default function Login({navigation}) {
 
                 <View style={styles.bottom_link_container}>
                     <Text style={styles.dont_have_account_text}>Don't have an account? </Text>
-                    <Text style={styles.sign_up_link}> Sign Up</Text>
+                    <Pressable onPress={()=>navigation.navigate("Register")}>
+                        <Text style={styles.sign_up_link}> Sign Up</Text>
+                    </Pressable>                
                 </View>
             </View>
         </View>
