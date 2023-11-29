@@ -7,8 +7,7 @@ export default function CommentItem({comment_data, updateComment, message_id}) {
 
 
     const onUpdateComment = () => {
-        console.log("update_comment_input_value", update_comment_input_value)
-        updateComment(message_id, comment_data.id, update_comment_input_value)
+        updateComment(message_id, comment_data.id, update_comment_input_value);
         setEditingMessage(false);
     }
 
@@ -169,5 +168,9 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
         marginBottom: 16,
         textAlignVertical: "top"
+    },
+    disabled_button: {
+        backgroundColor: "rgba(44, 107, 255, 0.50)"
     }
+    
 });
