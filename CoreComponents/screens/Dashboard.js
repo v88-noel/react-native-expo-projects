@@ -72,11 +72,23 @@ export default function Dashboard({navigation}) {
 
         setAddMessageInputValue("");
     };
+
+    const deleteMessage = (message_id) => {
+        setMessageList(prevMessages => prevMessages.filter(message => message.id !== message_id));
+    };
+
+    const deleteComment = (message_id, comment_id) => {
+        setMessageList(prevMessages => (
+            prevMessages.map(message => (
+                message.id === message_id ? { ...message, comments: message.comments.filter(comment => comment.id !== comment_id) } : message
+            ))
+        ));
+    };
     
     return (
         <>
             <View style={styles.top_navigation} >
-                <Text style={styles.page_title}>The Wall Assignment</Text>       
+                <Text style={styles.page_title}>The Wall</Text>       
                 <Pressable style={styles.logout_button} onPress={()=>navigation.navigate("Login")}>
                     <Text style={styles.logout_text}>Logout</Text>
                 </Pressable>
@@ -97,6 +109,8 @@ export default function Dashboard({navigation}) {
                                     updateMessageContent={updateMessageContent} 
                                     addComment={addComment}
                                     updateComment={updateComment}
+                                    deleteMessage={deleteMessage}
+                                    deleteComment={deleteComment}
                                 />
                             )
                         }
