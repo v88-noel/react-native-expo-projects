@@ -7,7 +7,8 @@ import { useFonts } from "expo-font";
 let ScreenHeight = Dimensions.get("window").height;
 
 export default function Dashboard({navigation}) {
-    const [message_list, setMessageList] = useState(wall_data) 
+    const [message_list, setMessageList] = useState(wall_data); 
+    const [add_message_input_value, setAddMessageInputValue] = useState("")
 
     const [fontsLoaded] = useFonts({
 		"Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -21,37 +22,55 @@ export default function Dashboard({navigation}) {
 	}
 
     const updateMessageContent = (message_id, new_content) => {
-        setMessageList(prevMessages => (
-            prevMessages.map(message => (
-                message.id === message_id ? { ...message, message_content: new_content } : message
-            ))
-        ));
+        if(new_content.length){
+            setMessageList(prevMessages => (
+                prevMessages.map(message => (
+                    message.id === message_id ? { ...message, message_content: new_content } : message
+                ))
+            ));
+        }
     };
 
     const addComment = (message_id, new_comment) => {
-
-        setMessageList(prevMessages => (
-            prevMessages.map(message => (
-                message.id === message_id ? { 
-                    ...message, comments: 
-                        [{comment: new_comment, id: message.comments.length+1}, ...message.comments] 
-                    } : message
-            ))
-        ));
+        if(new_comment.length){
+            setMessageList(prevMessages => (
+                prevMessages.map(message => (
+                    message.id === message_id ? { 
+                        ...message, comments: 
+                            [{comment: new_comment, id: message.comments.length+1}, ...message.comments] 
+                        } : message
+                ))
+            ));
+        }
     };
 
     const updateComment = (message_id, comment_id, updated_comment) => {
+        if(updated_comment){
+            setMessageList(prevMessages => (
+                prevMessages.map(message => (
+                    message.id === message_id ? {
+                    ...message,
+                        comments: message.comments.map(comment =>
+                            comment.id === comment_id ? { ...comment, comment: updated_comment } : comment
+                        )
+                    } : message
+                ))
+            ));
+        }
+    };
 
-        setMessageList(prevMessages => (
-            prevMessages.map(message => (
-                message.id === message_id ? {
-                ...message,
-                    comments: message.comments.map(comment =>
-                        comment.id === comment_id ? { ...comment, comment: updated_comment } : comment
-                    )
-                } : message
-            ))
-        ));
+    const addNewMessage = () => {
+        const new_message = {
+          "id": message_list.length + 1,
+          "message_content": add_message_input_value,
+          "comments": []
+        };
+        
+        if(add_message_input_value.length){
+            setMessageList(prevMessages => [...prevMessages, new_message]);
+        }
+
+        setAddMessageInputValue("");
     };
     
     return (
@@ -69,9 +88,6 @@ export default function Dashboard({navigation}) {
                         <Text style={styles.number_of_message}>{message_list.length} </Text>messages arranges by latest posted
                         </Text>
                     </View>       
-                    <Pressable style={styles.create_message_button}>
-                        <Text style={styles.create_message_button_text}>Create Message</Text>
-                    </Pressable>
                     <View style={styles.message_list}>
                         {
                             message_list.map((message_data)=>
@@ -87,10 +103,18 @@ export default function Dashboard({navigation}) {
                     </View>
                 </View>
             </ScrollView>
-            <View style={styles.top_navigation} >
-                <Text style={styles.page_title}>The Wall Assignment</Text>       
-                <Pressable style={styles.logout_button} onPress={()=>navigation.navigate("Login")}>
-                    <Text style={styles.logout_text}>Logout</Text>
+            <View style={styles.add_message_container} >
+                <TextInput
+                    multiline={true}
+                    numberOfLines={3}
+                    style={styles.add_message_input}
+                    placeholder="Type your message here"
+                    placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
+                    value={add_message_input_value}
+                    onChangeText={(Text)=>setAddMessageInputValue(Text)}
+                />
+                <Pressable style={[styles.add_message_button, (add_message_input_value.length) ? "" : styles.disabled_button ]} onPress={addNewMessage}>
+                    <Text style={styles.add_message_button_label}>Add Message</Text>
                 </Pressable>
             </View>
         </>
@@ -104,20 +128,23 @@ const styles = StyleSheet.create({
         height: ScreenHeight
     },  
     top_navigation: {
-        height: 72,
+        height: 64,
         backgroundColor: "#fff",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 16,
+        paddingTop: 16,
         justifyContent: "space-between",
         elevation: 8,
         position: "sticky",
-        top: 0
+        top: 0,
+        borderBottomColor: "#DCE6FF",
+        borderBottomWidth: 1
     },
     page_title: {
         color: "#152C61",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: "500"
     },
     logout_button: {
@@ -176,4 +203,46 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         fontFamily: "Poppins-Medium",
     },
+    add_message_container: {
+        display: "flex",
+        alignItems: "flex-end",
+        padding: 16,
+        backgroundColor: "#fff",
+        borderTopColor: "#DCE6FF",
+        borderTopWidth: 1
+    },
+    add_message_input: {
+        width: "100%",
+        padding: 8,
+        borderWidth: 1,
+        backgroundColor: "#F5F8FF",
+        borderColor: "#DCE6FF",
+        borderRadius: 6,
+        color: "#152C61",
+        fontSize: 16,
+        fontWeight: "300",
+        fontFamily: "Poppins-Light",
+        alignSelf: "stretch",
+        marginBottom: 16,
+        textAlignVertical: "top"
+        
+    },
+    add_message_button: {
+        width: 190,
+        height: 38,
+        borderRadius: 6,
+        backgroundColor: "#2C6BFF",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    add_message_button_label: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "500",
+        fontFamily: "Poppins-Medium",
+    },
+    disabled_button: {
+        backgroundColor: "rgba(44, 107, 255, 0.50)"
+    }
 });
