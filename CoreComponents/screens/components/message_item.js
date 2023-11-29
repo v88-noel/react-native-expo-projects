@@ -3,24 +3,36 @@ import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from
 import CommentItem from "./comment_item";
 import ConfirmationModal from "./confirmation_modal";
 
-export default function message_item({message_data, updateMessageContent, addComment, updateComment}) {
+export default function message_item({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment}) {
 
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
-
     const [is_add_comment_active, setAddCommentActive] = useState(false);
     const [is_editing_message, setEditingMessage] = useState(false);
+    const [modal_type, setModalType] = useState("");
+    const [comment_id_to_delete, setCommentIDToDelete] = useState(null);
+
+    const [is_confirmation_modal_visible, setConfirmationModalVisible] = useState(false);
 
     const onSubmitUpdateMessage = () =>{   
         updateMessageContent(message_data.id, update_message_input_value);
         setEditingMessage(false);
     }
     
-
-    onSubmitAddComment = () => {
-        console.log("add_comment_input_value", add_comment_input_value);
+    const onSubmitAddComment = () => {
         addComment(message_data.id, add_comment_input_value);
         setAddCommentInputValue("");
+    }
+
+    const onReturnConfirmationModalResult = (result, modal_type) => {
+        console.log("modal_type", modal_type)
+        if(result && modal_type === "message"){
+            deleteMessage(message_data.id);
+        }else if(result && modal_type === "comment"){
+            deleteComment(message_data.id, comment_id_to_delete);
+        }
+
+        setConfirmationModalVisible(false);
     }
 
     return (
@@ -50,7 +62,14 @@ export default function message_item({message_data, updateMessageContent, addCom
                             fadeDuration={0}
                             style={{ width: 24, height: 24 }}
                         />
-                        <Text style={[styles.message_action_text]}>Delete</Text>
+                        <Text 
+                            style={[styles.message_action_text]} 
+                            onPress={()=>{
+                                setConfirmationModalVisible(true);
+                                setModalType("message");
+                            }}>
+                                Delete
+                        </Text>
                     </Pressable>
                     <View style={styles.time_ago_container}>
                         <Image 
@@ -104,14 +123,20 @@ export default function message_item({message_data, updateMessageContent, addCom
                             message_id={message_data.id}
                             comment_data={comment_data} 
                             updateComment={updateComment}
-                            key={comment_data.id+1} 
-                            
+                            key={comment_data.id + 1}     
+                            setConfirmationModalVisible={setConfirmationModalVisible}      
+                            setCommentIDToDelete={setCommentIDToDelete}
+                            setModalType={setModalType}               
                         />
                     )
                 }          
             </View>
 
-            <ConfirmationModal />
+            <ConfirmationModal 
+                is_visible={is_confirmation_modal_visible} 
+                onReturnConfirmationModalResult={onReturnConfirmationModalResult} 
+                modal_type={modal_type}
+            />
         </View>
     )
 }
@@ -141,15 +166,6 @@ const styles = StyleSheet.create({
     },
     edit_message_text_action: {
         color: "#2C6BFF"
-    },
-    comment_button: {
-
-    },
-    comment_count_text: {
-
-    },
-    comment_count: {
-
     },
     has_comment:{
         color: "#2C6BFF"
