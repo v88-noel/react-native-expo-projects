@@ -1,6 +1,7 @@
 import React, {useState, useRef} from "react";
-import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from "react-native";
 import CommentItem from "./comment_item";
+import ConfirmationModal from "./confirmation_modal";
 
 export default function message_item({message_data, updateMessageContent, addComment, updateComment}) {
 
@@ -109,6 +110,8 @@ export default function message_item({message_data, updateMessageContent, addCom
                     )
                 }          
             </View>
+
+            <ConfirmationModal />
         </View>
     )
 }
