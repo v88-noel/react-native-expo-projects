@@ -14,9 +14,8 @@ export default function Login({navigation}) {
 		return undefined;
 	}
 
-
-  return (
-    <View style={styles.container}>
+    return (
+        <View style={styles.container}>
             <View style={styles.form_container}>
                 <Text style={styles.page_title}>The Wall</Text>
                 <Text style={styles.login_text}>Log In</Text>
