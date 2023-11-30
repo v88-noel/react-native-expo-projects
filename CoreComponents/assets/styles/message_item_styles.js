@@ -136,6 +136,9 @@ const styles = StyleSheet.create({
     },
     disabled_button: {
         backgroundColor: "rgba(44, 107, 255, 0.50)"
+    },
+    active_input:{
+        borderColor: "#6490FF"
     }
 });
 
