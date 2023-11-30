@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pressable,  Text, TextInput, View, Dimensions, ScrollView  } from 'react-native';
+import { Pressable,  Text, TextInput, View, ScrollView, Keyboard  } from 'react-native';
 import wall_data from "../assets/data.json";
 import ImageItem from "./components/MessageItem";
 import { styles } from "../assets/styles/dashboard_styles";
@@ -59,6 +59,8 @@ export default function Dashboard({navigation}) {
     };
 
     const addNewMessage = () => {
+        Keyboard.dismiss();
+
         const new_message = {
           "id": message_list.length + 1,
           "message_content": add_message_input_value,
