@@ -7,7 +7,8 @@ import { useFonts } from "expo-font";
 
 export default function Dashboard({navigation}) {
     const [message_list, setMessageList] = useState(wall_data); 
-    const [add_message_input_value, setAddMessageInputValue] = useState("")
+    const [add_message_input_value, setAddMessageInputValue] = useState("");
+    const [is_add_message_active, setAddMessageActive] = useState(false);
 
     const [fontsLoaded] = useFonts({
 		"Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -118,15 +119,17 @@ export default function Dashboard({navigation}) {
                     </View>
                 </View>
             </ScrollView>
-            <View style={styles.add_message_container} >
+            <View style={styles.add_message_container}>
                 <TextInput
                     multiline={true}
-                    numberOfLines={3}
-                    style={styles.add_message_input}
+                    numberOfLines={(is_add_message_active) ? 3 : 1}
+                    style={[styles.add_message_input, (is_add_message_active) ? styles.active_input : ""]}
                     placeholder="Type your message here"
                     placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
                     value={add_message_input_value}
                     onChangeText={(Text)=>setAddMessageInputValue(Text)}
+                    onFocus={()=>setAddMessageActive(true)}
+                    onBlur={()=>setAddMessageActive(false)}
                 />
                 <Pressable style={[styles.add_message_button, (add_message_input_value.length) ? "" : styles.disabled_button ]} onPress={addNewMessage}>
                     <Text style={styles.add_message_button_label}>Add Message</Text>
