@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TheWall",
-    "slug": "TheWall",
+    "name": "CoreComponents",
+    "slug": "CoreComponents",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

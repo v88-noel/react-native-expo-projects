@@ -96,7 +96,7 @@ export default function message_item({message_data, updateMessageContent, addCom
                     <Pressable style={styles.cancel_edit_message_button} onPress={()=>setEditingMessage(false)}>
                         <Text style={styles.cancel_edit_message_button_text}>Cancel</Text>
                     </Pressable>                   
-                    <Pressable style={styles.update_message_button} onPress={onSubmitUpdateMessage}>
+                    <Pressable style={[styles.update_message_button, (update_message_input_value.length) ? "" : styles.disabled_button]} onPress={onSubmitUpdateMessage}>
                         <Text style={styles.update_message_button_text}>Update Message </Text>
                     </Pressable>
                 </View>
@@ -112,7 +112,7 @@ export default function message_item({message_data, updateMessageContent, addCom
                     placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
                     onChangeText={(text)=>setAddCommentInputValue(text)}
                 />
-                <Pressable style={styles.add_comment_button} onPress={onSubmitAddComment}>
+                <Pressable style={[styles.add_comment_button, (add_comment_input_value.length) ? "" : styles.disabled_button]} onPress={onSubmitAddComment}>
                     <Text style={styles.add_comment_button_text}>Post Comment</Text>
                 </Pressable>
             </View>
@@ -274,6 +274,9 @@ const styles = StyleSheet.create({
     },
     comment_item: {
 
+    },
+    disabled_button: {
+        backgroundColor: "rgba(44, 107, 255, 0.50)"
     }
       
 });
