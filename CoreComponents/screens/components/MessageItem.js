@@ -2,6 +2,7 @@ import React, {useState, useRef} from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from "react-native";
 import CommentItem from "./CommentItem";
 import ConfirmationModal from "./ConfirmationModal";
+import { styles } from "../../assets/styles/message_item_styles";
 
 export default function message_item({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment}) {
 
@@ -11,8 +12,8 @@ export default function message_item({message_data, updateMessageContent, addCom
     const [is_editing_message, setEditingMessage] = useState(false);
     const [modal_type, setModalType] = useState("");
     const [comment_id_to_delete, setCommentIDToDelete] = useState(null);
-
     const [is_confirmation_modal_visible, setConfirmationModalVisible] = useState(false);
+    const [is_add_comment_input_active, setAddCommentInputActive] = useState(false);
 
     const onSubmitUpdateMessage = () =>{   
         updateMessageContent(message_data.id, update_message_input_value);
@@ -106,11 +107,13 @@ export default function message_item({message_data, updateMessageContent, addCom
                     multiline={true}
                     maxLength={100}
                     numberOfLines={4}
-                    style={styles.comment_input}
+                    style={[styles.comment_input, (is_add_comment_input_active) ? styles.active_input : ""]}
                     value={add_comment_input_value}
                     placeholder="Type your comment here"
                     placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
                     onChangeText={(text)=>setAddCommentInputValue(text)}
+                    onFocus={()=>setAddCommentInputActive(true)}
+                    onBlur={()=>setAddCommentInputActive(false)}
                 />
                 <Pressable style={[styles.add_comment_button, (add_comment_input_value.length) ? "" : styles.disabled_button]} onPress={onSubmitAddComment}>
                     <Text style={styles.add_comment_button_text}>Post Comment</Text>
@@ -140,143 +143,3 @@ export default function message_item({message_data, updateMessageContent, addCom
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    message_item: {
-        borderColor: "#DCE6FF",
-        borderWidth: 1,
-        borderRadius: 6,
-        display: "block",
-        padding: 20,
-        marginBottom: 20
-    },
-    message_text: {
-        color: "#152C61",
-        fontSize: 16,
-        fontWeight: "300",
-        fontFamily: "Poppins-Light",
-        marginBottom: 8
-    },
-    message_actions_container:{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        flexWrap: "wrap",
-        marginBottom: 16,
-    },
-    edit_message_text_action: {
-        color: "#2C6BFF"
-    },
-    has_comment:{
-        color: "#2C6BFF"
-    },
-    comment_author:{
-        color: "rgba(0, 0, 0, 0.60)",
-        fontFamily: "Poppins-Medium",
-        fontSize: 16,
-        fontWeight: "500",
-        fontStyle: "normal"
-    },
-    time_ago_container: {
-        display: "flex",
-        flexDirection: "row"
-    },
-    message_action: {
-        marginRight: 8,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    message_action_text: {
-        color: "#707070",
-        fontSize: 16,
-        fontFamily: "Poppins-Regular",
-    },
-    add_comment_container: {
-        borderColor: "#DCE6FF",
-        display: "block",
-        borderWidth: 1,
-        borderRadius: 6,
-        padding: 16,
-        alignItems: "flex-end"
-    },
-    no_display_element: {
-        display: "none"
-    }, 
-    block_display_element: {
-        display: "block"
-    }, 
-    comment_input: {
-        padding: 8,
-        borderWidth: 1,
-        backgroundColor: "#F5F8FF",
-        borderColor: "#DCE6FF",
-        borderRadius: 6,
-        color: "#152C61",
-        fontSize: 16,
-        fontWeight: "300",
-        fontFamily: "Poppins-Light",
-        alignSelf: "stretch",
-        marginBottom: 16,
-        textAlignVertical: "top"
-    },
-    add_comment_button: {
-        backgroundColor: "#2C6BFF",
-        width: 190,
-        height: 38,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 6
-    },
-    add_comment_button_text: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "500",
-        fontFamily: "Poppins-Medium"
-    },
-    edit_message_action_container:{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        marginBottom: 16
-    },
-    edit_message_container:{
-        alignSelf: "stretch",
-    },  
-    cancel_edit_message_button:{
-        marginRight: 10
-    },
-    cancel_edit_message_button_text:{
-        color: "rgba(0, 0, 0, 0.60)",
-        fontFamily: "Poppins-Regular",
-        fontSize: 16,
-        fontWeight: "400",
-    }, 
-    update_message_button:{
-        backgroundColor: "#2C6BFF",
-        borderRadius: 6,
-        width: 190,
-        height: 38,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    update_message_button_text:{
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "500",
-        fontFamily: "Poppins-Medium"
-    },
-    comment_list: {
-
-    },
-    comment_item: {
-
-    },
-    disabled_button: {
-        backgroundColor: "rgba(44, 107, 255, 0.50)"
-    }
-      
-});
