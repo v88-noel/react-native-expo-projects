@@ -1,7 +1,7 @@
 import React, {useState, useRef} from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from "react-native";
-import CommentItem from "./comment_item";
-import ConfirmationModal from "./confirmation_modal";
+import CommentItem from "./CommentItem";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function message_item({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment}) {
 

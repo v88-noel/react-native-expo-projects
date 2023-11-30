@@ -19,7 +19,6 @@ export default function Login({navigation}) {
             <View style={styles.form_container}>
                 <Text style={styles.page_title}>The Wall</Text>
                 <Text style={styles.login_text}>Log In</Text>
-
                 <View style={styles.input_container}>
                     <View style={styles.login_input_group_container}>
                         <Text style={styles.input_group_label}>Email</Text>
@@ -30,13 +29,11 @@ export default function Login({navigation}) {
                         <TextInput style={styles.input_group_text_input}  secureTextEntry={true} >dasd</TextInput>
                     </View>
                 </View>
-
                 <View style={styles.button_container}>                
                     <Pressable style={styles.submit_button} onPress={()=>navigation.navigate("Dashboard")}>
                         <Text style={styles.button_text}>SIGN IN</Text>
                     </Pressable>   
                 </View>
-
                 <View style={styles.bottom_link_container}>
                     <Text style={styles.dont_have_account_text}>Don't have an account? </Text>
                     <Pressable onPress={()=>navigation.navigate("Register")}>
@@ -45,7 +42,7 @@ export default function Login({navigation}) {
                 </View>
             </View>
         </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({
