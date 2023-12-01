@@ -1,11 +1,12 @@
-import React, {useState, useRef} from "react";
-import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from "react-native";
+import React, {useState} from "react";
+import { Pressable, Text, TextInput, View, Image  } from "react-native";
 import CommentItem from "./CommentItem";
 import ConfirmationModal from "./ConfirmationModal";
 import { styles } from "../../assets/styles/message_item_styles";
 import { IMAGE_FADE_DURATION } from "../../config/constants";
+import { useUpdateData } from "../../config/AppContext";
 
-export default function MessageItem({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment, navigation}) {
+export default function MessageItem({message_data, updateMessageContent, updateComment, deleteComment, navigation}) {
 
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
@@ -15,6 +16,9 @@ export default function MessageItem({message_data, updateMessageContent, addComm
     const [comment_id_to_delete, setCommentIDToDelete] = useState(null);
     const [is_confirmation_modal_visible, setConfirmationModalVisible] = useState(false);
     const [is_add_comment_input_active, setAddCommentInputActive] = useState(false);
+
+    const deleteMessage = useUpdateData().deleteMessage;
+    const addComment = useUpdateData().addComment;
 
     const onSubmitUpdateMessage = () =>{   
         updateMessageContent(message_data.id, update_message_input_value);
