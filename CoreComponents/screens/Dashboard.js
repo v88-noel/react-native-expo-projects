@@ -27,62 +27,12 @@ export default function Dashboard({navigation}) {
 		return undefined;
 	}
 
-    const updateMessageContent = (message_id, new_content) => {
-        if(new_content.length){
-            setMessageList(previous_messages => (
-                previous_messages.map(message => (
-                    message.id === message_id ? { ...message, message_content: new_content } : message
-                ))
-            ));
-        }
-    };
-
-    const addComment = (message_id, new_comment) => {
-        if(new_comment.length){
-            setMessageList(previous_messages => (
-                previous_messages.map(message => (
-                    message.id === message_id ? { 
-                        ...message, comments: 
-                            [{comment: new_comment, id: message.comments.length+1}, ...message.comments] 
-                        } : message
-                ))
-            ));
-        }
-    };
-
-    const updateComment = (message_id, comment_id, updated_comment) => {
-        if(updated_comment){
-            setMessageList(previous_messages => (
-                previous_messages.map(message => (
-                    message.id === message_id ? {
-                    ...message,
-                        comments: message.comments.map(comment =>
-                            comment.id === comment_id ? { ...comment, comment: updated_comment } : comment
-                        )
-                    } : message
-                ))
-            ));
-        }
-    };
-
     const addNewMessage = () => {
         Keyboard.dismiss();
         addMessage(add_message_input_value)
         setAddMessageInputValue("");
     };
 
-    const deleteMessage = (message_id) => {
-        setMessageList(previous_messages => previous_messages.filter(message => message.id !== message_id));
-    };
-
-    const deleteComment = (message_id, comment_id) => {
-        setMessageList(previous_messages => (
-            previous_messages.map(message => (
-                message.id === message_id ? { ...message, comments: message.comments.filter(comment => comment.id !== comment_id) } : message
-            ))
-        ));
-    };
-    
     return (
         <>
             <View style={styles.top_navigation} >
@@ -104,11 +54,6 @@ export default function Dashboard({navigation}) {
                                 <MessageItem 
                                     key={message_data.id}
                                     message_data={message_data} 
-                                    updateMessageContent={updateMessageContent} 
-                                    addComment={addComment}
-                                    updateComment={updateComment}
-                                    deleteMessage={deleteMessage}
-                                    deleteComment={deleteComment}
                                     navigation={navigation}
                                 />
                             )
