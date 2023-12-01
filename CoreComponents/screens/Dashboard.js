@@ -13,7 +13,7 @@ export default function Dashboard({navigation}) {
     const [is_add_message_active, setAddMessageActive] = useState(false);
 
     const app_data = useData();
-    const update_data = useUpdateData();
+    const addMessage = useUpdateData().addMessage;
 
 
     const [fontsLoaded] = useFonts({
@@ -78,7 +78,7 @@ export default function Dashboard({navigation}) {
         //     setMessageList(previous_messages => [...previous_messages, new_message]);
         // }
 
-        update_data(add_message_input_value)
+        addMessage(add_message_input_value)
 
         setAddMessageInputValue("");
     };

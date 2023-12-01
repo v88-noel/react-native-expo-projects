@@ -15,20 +15,22 @@ export function useUpdateData(){
 export function AppContextProvider({children}){
     const [app_data, setAppData] = useState(wall_data);
     
-    function updateData(new_message_value){
-        
+    function addMessage(new_message_value){
         const new_message = {
             "id": app_data.length + 1,
             "message_content": new_message_value,
             "comments": []
-        };
-            
+        };          
+
         setAppData(previous_messages => [...previous_messages, new_message]);   
     }
 
     return (
         <AppContext.Provider value={app_data}>
-            <AppUpdateContext.Provider value={updateData}>
+            <AppUpdateContext.Provider value={{
+                    addMessage: addMessage
+                }}
+            >
                 {children}
             </AppUpdateContext.Provider>
         </AppContext.Provider>
