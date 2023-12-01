@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
     },
     message_action: {
         marginRight: 8,
-        display: "flex",
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "flex-end",
     },
     message_action_text: {
         color: "#707070",
@@ -134,11 +133,19 @@ const styles = StyleSheet.create({
     comment_item: {
 
     },
+    comment_button:{
+
+    },
     disabled_button: {
         backgroundColor: "rgba(44, 107, 255, 0.50)"
     },
     active_input:{
         borderColor: "#6490FF"
+    },
+    message_action_text: {
+        color: "#707070",
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
     }
 });
 
