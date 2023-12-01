@@ -2,11 +2,13 @@ import React, {useState} from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from 'react-native';
 import { IMAGE_FADE_DURATION } from '../../config/constants';
 import {styles} from "../../assets/styles/comment_item_styles";
+import { useUpdateData } from "../../config/AppContext";
 
-export default function CommentItem({comment_data, updateComment, message_id, setConfirmationModalVisible, setModalType, setCommentIDToDelete}) {
+export default function CommentItem({comment_data, message_id, setConfirmationModalVisible, setModalType, setCommentIDToDelete}) {
     const [is_editing_message, setEditingMessage] = useState(false);
-    const [is_edit_comment_input_active, setEditCommentInputActive] = useState(false);
     const [update_comment_input_value, setUpdateCommentInputValue] = useState(comment_data.comment);
+
+    const updateComment = useUpdateData().updateComment;
 
     const onUpdateComment = () => {
         updateComment(message_id, comment_data.id, update_comment_input_value);
