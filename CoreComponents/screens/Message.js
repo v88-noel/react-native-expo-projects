@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { styles } from "../assets/styles/message_styles";
 import { COMMENT_ID_ADDEND } from "../config/constants";
@@ -49,10 +49,6 @@ export default function Message({navigation}) {
         }
     };
 
-    const deleteMessage = (message_id) => {
-        setMessageList(previous_messages => previous_messages.filter(message => message.id !== message_id));
-    };
-
     const deleteComment = (message_id, comment_id) => {
         setMessageList(previous_messages => (
             previous_messages.map(message => (
@@ -63,17 +59,16 @@ export default function Message({navigation}) {
     
 
     return (
-        <View style={styles.message_container}>
+        <ScrollView style={styles.message_container}>
             <MessageItem 
                 key={received_message_data.id}
                 message_data={received_message_data} 
                 updateMessageContent={updateMessageContent} 
                 addComment={addComment}
                 updateComment={updateComment}
-                deleteMessage={deleteMessage}
                 deleteComment={deleteComment}
                 navigation={navigation}
             />
-        </View>
+        </ScrollView>
     )
 }
