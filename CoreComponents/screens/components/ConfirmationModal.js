@@ -1,6 +1,7 @@
 import Modal from "react-native-modal";
 import { Pressable, StyleSheet, Text, View, Image  } from "react-native";
 import { styles } from "../../assets/styles/confirmation_modal_styles";
+import { IMAGE_FADE_DURATION } from "../../config/constants";
 
 export default function ConfirmationModal({is_visible, onReturnConfirmationModalResult, modal_type}) {
 
@@ -18,7 +19,7 @@ export default function ConfirmationModal({is_visible, onReturnConfirmationModal
                 <Pressable style={styles.close_button} onPress={onPressCancelAction}>
                     <Image
                         source={require("../../assets/action_icons/cancel.png")}
-                        fadeDuration={0}
+                        fadeDuration={IMAGE_FADE_DURATION}
                         style={{ width: 24, height: 24 }}
                     />
                 </Pressable>
