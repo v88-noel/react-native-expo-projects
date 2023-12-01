@@ -8,13 +8,10 @@ import { useFonts } from "expo-font";
 import { useData, useUpdateData } from "../config/AppContext";
 
 export default function Dashboard({navigation}) {
-    const [message_list, setMessageList] = useState(wall_data); 
     const [add_message_input_value, setAddMessageInputValue] = useState("");
     const [is_add_message_active, setAddMessageActive] = useState(false);
-
     const app_data = useData();
     const addMessage = useUpdateData().addMessage;
-
 
     const [fontsLoaded] = useFonts({
 		"Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
