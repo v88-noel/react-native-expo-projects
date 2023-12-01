@@ -95,7 +95,7 @@ export default function Dashboard({navigation}) {
                 <View style={styles.message_container}>
                     <View style={styles.message_count_container}>
                         <Text style={styles.message_count_text}>
-                        <Text style={styles.number_of_message}>{message_list.length} </Text>messages arranges by latest posted
+                        <Text style={styles.number_of_message}>{app_data.length} </Text>message{(app_data.length) ? "s" : ""} arranged by latest posted
                         </Text>
                     </View>       
                     <View style={styles.message_list}>
