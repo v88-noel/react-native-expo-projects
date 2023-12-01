@@ -6,7 +6,7 @@ import { styles } from "../../assets/styles/message_item_styles";
 import { IMAGE_FADE_DURATION } from "../../config/constants";
 import { useUpdateData } from "../../config/AppContext";
 
-export default function MessageItem({message_data, updateMessageContent, updateComment, deleteComment, navigation}) {
+export default function MessageItem({message_data, navigation}) {
 
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
@@ -19,6 +19,8 @@ export default function MessageItem({message_data, updateMessageContent, updateC
 
     const deleteMessage = useUpdateData().deleteMessage;
     const addComment = useUpdateData().addComment;
+    const updateMessageContent = useUpdateData().updateMessageContent;
+    const deleteComment = useUpdateData().deleteComment;
 
     const onSubmitUpdateMessage = () =>{   
         updateMessageContent(message_data.id, update_message_input_value);
@@ -138,7 +140,6 @@ export default function MessageItem({message_data, updateMessageContent, updateC
                         <CommentItem 
                             message_id={message_data.id}
                             comment_data={comment_data} 
-                            updateComment={updateComment}
                             key={comment_data.id}     
                             setConfirmationModalVisible={setConfirmationModalVisible}      
                             setCommentIDToDelete={setCommentIDToDelete}
