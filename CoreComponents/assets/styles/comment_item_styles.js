@@ -1,4 +1,4 @@
-import {  StyleSheet } from 'react-native';
+import {  StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     comment_item:{
@@ -35,13 +35,15 @@ const styles = StyleSheet.create({
     },
     time_ago_container: {
         display: "flex",
-        flexDirection: "row"
+        flexDirection: "row",
+        width: "100%"
     },
     comment_action: {
         marginRight: 8,
         display: "flex",
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "flex-end",
+
     },
     comment_action_text: {
         color: "#707070",
@@ -101,6 +103,11 @@ const styles = StyleSheet.create({
     },
     disabled_button: {
         backgroundColor: "rgba(44, 107, 255, 0.50)"
+    },
+    message_action_text: {
+        color: "#707070",
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
     }
     
 });
