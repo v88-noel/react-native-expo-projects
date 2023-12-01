@@ -1,9 +1,10 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { DEVICE_HEIGHT } from "../../config/constants";
 
 const styles = StyleSheet.create({
     dashboard_container:{
         backgroundColor: "#FBFBFB",
-        height: Dimensions.get("window").height
+        height: DEVICE_HEIGHT
     },  
     top_navigation: {
         height: 64,
