@@ -3,8 +3,9 @@ import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from
 import CommentItem from "./CommentItem";
 import ConfirmationModal from "./ConfirmationModal";
 import { styles } from "../../assets/styles/message_item_styles";
+import { IMAGE_FADE_DURATION } from "../../config/constants";
 
-export default function message_item({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment}) {
+export default function MessageItem({message_data, updateMessageContent, addComment, updateComment, deleteMessage, deleteComment, navigation}) {
 
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
@@ -37,14 +38,14 @@ export default function message_item({message_data, updateMessageContent, addCom
     }
 
     return (
-        <View style={styles.message_item}>
+        <Pressable style={styles.message_item} onPress={()=>navigation.navigate("Message", {data: message_data})}>
             <View style={[(is_editing_message) ? styles.no_display_element : ""]}>
                 <Text style={styles.message_text}>{message_data.message_content}</Text>
                 <View style={styles.message_actions_container}>
                     <Pressable style={[styles.comment_button, styles.message_action]} onPress={()=>setAddCommentActive(!is_add_comment_active)}>
                         <Image
                             source={  (message_data.comments.length) ? require("../../assets/action_icons/messages-bubble-square-text-active.png") : require("../../assets/action_icons/messages-bubble-square-text.png")}
-                            fadeDuration={0}
+                            fadeDuration={IMAGE_FADE_DURATION}
                             style={{ width: 24, height: 24 }}
                         />
                         <Text style={[styles.comment_count_text, styles.message_action_text, (message_data.comments.length) ? styles.has_comment : ""]}><Text style={styles.comment_count}> {message_data.comments.length}</Text> comment</Text>
@@ -52,7 +53,7 @@ export default function message_item({message_data, updateMessageContent, addCom
                     <Pressable style={[styles.comment_button, styles.message_action]} onPress={()=>setEditingMessage(!is_editing_message)}>
                         <Image
                             source={require("../../assets/action_icons/pencil-write.png")}
-                            fadeDuration={0}
+                            fadeDuration={IMAGE_FADE_DURATION}
                             style={{ width: 30, height: 30 }}
                         />
                         <Text style={[styles.message_action_text, styles.edit_message_text_action ]}>Edit</Text>
@@ -60,7 +61,7 @@ export default function message_item({message_data, updateMessageContent, addCom
                     <Pressable style={[styles.comment_button, styles.message_action]}>
                         <Image
                             source={require("../../assets/action_icons/delete.png")}
-                            fadeDuration={0}
+                            fadeDuration={IMAGE_FADE_DURATION}
                             style={{ width: 24, height: 24 }}
                         />
                         <Text 
@@ -75,10 +76,10 @@ export default function message_item({message_data, updateMessageContent, addCom
                     <View style={styles.time_ago_container}>
                         <Image 
                             source={require("../../assets/action_icons/user_placeholder.png")}
-                            fadeDuration={0}
+                            fadeDuration={IMAGE_FADE_DURATION}
                             style={{ width: 24, height: 24 }}
                         />
-                        <Text style={styles.comment_author}>You</Text>
+                        <Text style={styles.comment_author}> You</Text>
                         <Text style={[styles.time_ago, styles.message_action_text]} > - Few seconds ago</Text>
                     </View>
                 </View>
@@ -105,19 +106,27 @@ export default function message_item({message_data, updateMessageContent, addCom
             <View style={(is_add_comment_active) ? styles.add_comment_container : styles.no_display_element}>
                 <TextInput
                     multiline={true}
-                    maxLength={100}
-                    numberOfLines={4}
                     style={[styles.comment_input, (is_add_comment_input_active) ? styles.active_input : ""]}
                     value={add_comment_input_value}
                     placeholder="Type your comment here"
                     placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
                     onChangeText={(text)=>setAddCommentInputValue(text)}
                     onFocus={()=>setAddCommentInputActive(true)}
-                    onBlur={()=>setAddCommentInputActive(false)}
+                    onBlur={()=>setAddCommentInputActive(true)}
                 />
-                <Pressable style={[styles.add_comment_button, (add_comment_input_value.length) ? "" : styles.disabled_button]} onPress={onSubmitAddComment}>
-                    <Text style={styles.add_comment_button_text}>Post Comment</Text>
-                </Pressable>
+                {
+                    (is_add_comment_input_active) ? 
+                        (
+                            <Pressable 
+                                style={[styles.add_comment_button, (add_comment_input_value.length) ? "" : styles.disabled_button]} 
+                                onPress={onSubmitAddComment}
+                            >
+                                <Text style={styles.add_comment_button_text}>Post Comment</Text>
+                            </Pressable>      
+                        )
+                    : ""
+                }
+              
             </View>
             <View style={[styles.comment_list, (is_add_comment_active) ? "" : styles.no_display_element]}> 
                 {
@@ -126,7 +135,7 @@ export default function message_item({message_data, updateMessageContent, addCom
                             message_id={message_data.id}
                             comment_data={comment_data} 
                             updateComment={updateComment}
-                            key={comment_data.id + 1}     
+                            key={comment_data.id}     
                             setConfirmationModalVisible={setConfirmationModalVisible}      
                             setCommentIDToDelete={setCommentIDToDelete}
                             setModalType={setModalType}               
@@ -134,12 +143,11 @@ export default function message_item({message_data, updateMessageContent, addCom
                     )
                 }          
             </View>
-
             <ConfirmationModal 
                 is_visible={is_confirmation_modal_visible} 
                 onReturnConfirmationModalResult={onReturnConfirmationModalResult} 
                 modal_type={modal_type}
             />
-        </View>
+        </Pressable>
     )
 }
