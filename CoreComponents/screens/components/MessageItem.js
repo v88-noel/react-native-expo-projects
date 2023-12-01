@@ -27,7 +27,7 @@ export default function MessageItem({message_data, updateMessageContent, addComm
     }
 
     const onReturnConfirmationModalResult = (result, modal_type) => {
-        console.log("modal_type", modal_type)
+
         if(result && modal_type === "message"){
             deleteMessage(message_data.id);
         }else if(result && modal_type === "comment"){
