@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View, Dimensions, Image  } from 'react-native';
+import { IMAGE_FADE_DURATION } from '../../config/constants';
 import {styles} from "../../assets/styles/comment_item_styles";
 
 export default function CommentItem({comment_data, updateComment, message_id, setConfirmationModalVisible, setModalType, setCommentIDToDelete}) {
     const [is_editing_message, setEditingMessage] = useState(false);
+    const [is_edit_comment_input_active, setEditCommentInputActive] = useState(false);
     const [update_comment_input_value, setUpdateCommentInputValue] = useState(comment_data.comment);
 
     const onUpdateComment = () => {
@@ -19,15 +21,23 @@ export default function CommentItem({comment_data, updateComment, message_id, se
 
     return (
         <View style={styles.comment_item}>
-
             <View style={[(is_editing_message) ? styles.no_display_element : ""]}>
                 <Text style={styles.comment_text}>{comment_data.comment}</Text>
                 <View>
-                    <View style={styles.comment_actions_container}>                   
+                    <View style={styles.comment_actions_container}>        
+                            <View style={styles.time_ago_container}>
+                                <Image 
+                                    source={require("../../assets/action_icons/user_placeholder.png")}
+                                    fadeDuration={IMAGE_FADE_DURATION}
+                                    style={{ width: 24, height: 24 }}
+                                />
+                                <Text style={styles.comment_author}> You</Text>
+                                <Text style={[styles.time_ago, styles.message_action_text]} > - Few seconds ago</Text>
+                            </View>           
                             <Pressable style={[styles.comment_button, styles.comment_action]} onPress={()=>setEditingMessage(!is_editing_message)}>
                                 <Image
                                     source={require("../../assets/action_icons/pencil-write.png")}
-                                    fadeDuration={0}
+                                    fadeDuration={IMAGE_FADE_DURATION}
                                     style={{ width: 30, height: 30 }}
                                 />
                                 <Text style={[styles.comment_action_text, styles.edit_comment_text_action ]}>Edit</Text>
@@ -35,20 +45,11 @@ export default function CommentItem({comment_data, updateComment, message_id, se
                             <Pressable style={[styles.comment_button, styles.comment_action]} onPress={onShowDeleteCommentModal}>
                                 <Image
                                     source={require("../../assets/action_icons/delete.png")}
-                                    fadeDuration={0}
+                                    fadeDuration={IMAGE_FADE_DURATION}
                                     style={{ width: 24, height: 24 }}
                                 />
                                 <Text style={[styles.comment_action_text]}>Delete</Text>
                             </Pressable>
-
-                            <View style={styles.time_ago_container}>
-                                <Image 
-                                    source={require("../../assets/action_icons/user_placeholder.png")}
-                                    fadeDuration={0}
-                                    style={{ width: 24, height: 24 }}
-                                />
-                                <Text style={styles.comment_author}> You</Text>
-                            </View>
                     </View>
                 </View>
             </View>
