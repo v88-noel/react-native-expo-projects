@@ -6,11 +6,11 @@ import { styles } from "../../assets/styles/message_item_styles";
 import { IMAGE_FADE_DURATION } from "../../config/constants";
 import { useUpdateData } from "../../config/AppContext";
 
-export default function MessageItem({message_data, navigation}) {
+export default function MessageItem({message_data, navigation, is_single_view_has_comment = false}) {
 
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
-    const [is_add_comment_active, setAddCommentActive] = useState(false);
+    const [is_add_comment_active, setAddCommentActive] = useState(is_single_view_has_comment);
     const [is_editing_message, setEditingMessage] = useState(false);
     const [modal_type, setModalType] = useState("");
     const [comment_id_to_delete, setCommentIDToDelete] = useState(null);
