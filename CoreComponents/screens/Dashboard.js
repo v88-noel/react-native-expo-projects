@@ -5,7 +5,7 @@ import MessageItem from "./components/MessageItem";
 import { styles } from "../assets/styles/dashboard_styles";
 import { useFonts } from "expo-font";
 
-import { useData, useUpdateData } from "../config/app_context";
+import { useData, useUpdateData } from "../config/AppContext";
 
 export default function Dashboard({navigation}) {
     const [message_list, setMessageList] = useState(wall_data); 
@@ -67,19 +67,7 @@ export default function Dashboard({navigation}) {
 
     const addNewMessage = () => {
         Keyboard.dismiss();
-
-        // const new_message = {
-        //   "id": message_list.length + 1,
-        //   "message_content": add_message_input_value,
-        //   "comments": []
-        // };
-        
-        // if(add_message_input_value.length){
-        //     setMessageList(previous_messages => [...previous_messages, new_message]);
-        // }
-
         addMessage(add_message_input_value)
-
         setAddMessageInputValue("");
     };
 
