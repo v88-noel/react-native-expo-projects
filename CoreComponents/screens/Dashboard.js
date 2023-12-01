@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Pressable,  Text, TextInput, View, ScrollView, Keyboard  } from 'react-native';
 import wall_data from "../assets/data.json";
 import MessageItem from "./components/MessageItem";
 import { styles } from "../assets/styles/dashboard_styles";
 import { useFonts } from "expo-font";
 
+import { useData, useUpdateData } from "../config/app_context";
+
 export default function Dashboard({navigation}) {
     const [message_list, setMessageList] = useState(wall_data); 
     const [add_message_input_value, setAddMessageInputValue] = useState("");
     const [is_add_message_active, setAddMessageActive] = useState(false);
+
+    const app_data = useData();
+    const update_data = useUpdateData();
+
 
     const [fontsLoaded] = useFonts({
 		"Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -62,15 +68,17 @@ export default function Dashboard({navigation}) {
     const addNewMessage = () => {
         Keyboard.dismiss();
 
-        const new_message = {
-          "id": message_list.length + 1,
-          "message_content": add_message_input_value,
-          "comments": []
-        };
+        // const new_message = {
+        //   "id": message_list.length + 1,
+        //   "message_content": add_message_input_value,
+        //   "comments": []
+        // };
         
-        if(add_message_input_value.length){
-            setMessageList(previous_messages => [...previous_messages, new_message]);
-        }
+        // if(add_message_input_value.length){
+        //     setMessageList(previous_messages => [...previous_messages, new_message]);
+        // }
+
+        update_data(add_message_input_value)
 
         setAddMessageInputValue("");
     };
@@ -104,7 +112,7 @@ export default function Dashboard({navigation}) {
                     </View>       
                     <View style={styles.message_list}>
                         {
-                            message_list.map((message_data)=>
+                            app_data.map((message_data)=>
                                 <MessageItem 
                                     key={message_data.id}
                                     message_data={message_data} 
