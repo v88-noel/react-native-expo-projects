@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Pressable,  Text, TextInput, View, ScrollView, Keyboard  } from 'react-native';
 import wall_data from "../assets/data.json";
-import ImageItem from "./components/MessageItem";
+import MessageItem from "./components/MessageItem";
 import { styles } from "../assets/styles/dashboard_styles";
 import { useFonts } from "expo-font";
 
@@ -23,8 +23,8 @@ export default function Dashboard({navigation}) {
 
     const updateMessageContent = (message_id, new_content) => {
         if(new_content.length){
-            setMessageList(prevMessages => (
-                prevMessages.map(message => (
+            setMessageList(previous_messages => (
+                previous_messages.map(message => (
                     message.id === message_id ? { ...message, message_content: new_content } : message
                 ))
             ));
@@ -33,8 +33,8 @@ export default function Dashboard({navigation}) {
 
     const addComment = (message_id, new_comment) => {
         if(new_comment.length){
-            setMessageList(prevMessages => (
-                prevMessages.map(message => (
+            setMessageList(previous_messages => (
+                previous_messages.map(message => (
                     message.id === message_id ? { 
                         ...message, comments: 
                             [{comment: new_comment, id: message.comments.length+1}, ...message.comments] 
@@ -46,8 +46,8 @@ export default function Dashboard({navigation}) {
 
     const updateComment = (message_id, comment_id, updated_comment) => {
         if(updated_comment){
-            setMessageList(prevMessages => (
-                prevMessages.map(message => (
+            setMessageList(previous_messages => (
+                previous_messages.map(message => (
                     message.id === message_id ? {
                     ...message,
                         comments: message.comments.map(comment =>
@@ -69,19 +69,19 @@ export default function Dashboard({navigation}) {
         };
         
         if(add_message_input_value.length){
-            setMessageList(prevMessages => [...prevMessages, new_message]);
+            setMessageList(previous_messages => [...previous_messages, new_message]);
         }
 
         setAddMessageInputValue("");
     };
 
     const deleteMessage = (message_id) => {
-        setMessageList(prevMessages => prevMessages.filter(message => message.id !== message_id));
+        setMessageList(previous_messages => previous_messages.filter(message => message.id !== message_id));
     };
 
     const deleteComment = (message_id, comment_id) => {
-        setMessageList(prevMessages => (
-            prevMessages.map(message => (
+        setMessageList(previous_messages => (
+            previous_messages.map(message => (
                 message.id === message_id ? { ...message, comments: message.comments.filter(comment => comment.id !== comment_id) } : message
             ))
         ));
@@ -105,7 +105,7 @@ export default function Dashboard({navigation}) {
                     <View style={styles.message_list}>
                         {
                             message_list.map((message_data)=>
-                                <ImageItem 
+                                <MessageItem 
                                     key={message_data.id}
                                     message_data={message_data} 
                                     updateMessageContent={updateMessageContent} 
@@ -113,6 +113,7 @@ export default function Dashboard({navigation}) {
                                     updateComment={updateComment}
                                     deleteMessage={deleteMessage}
                                     deleteComment={deleteComment}
+                                    navigation={navigation}
                                 />
                             )
                         }
