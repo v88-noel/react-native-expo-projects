@@ -17,8 +17,8 @@ export default function App() {
 		<AppContextProvider>
 			<NavigationContainer>
 				<Stack.Navigator 
-				initialRouteName="Login" 
-				screenOptions={{
+					initialRouteName="Login" 
+					screenOptions={{
 						headerShown: false
 				}}>
 					<Stack.Screen name="Login" component={Login}/>
