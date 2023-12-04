@@ -23,13 +23,10 @@ export default function ConfirmationModal({is_visible, onReturnConfirmationModal
                         style={{ width: 24, height: 24 }}
                     />
                 </Pressable>
-
-                <Text style={styles.modal_title}>Confirm Delete {modal_type.charAt(0).toUpperCase() + modal_type.slice(1)}</Text>
-                
+                <Text style={styles.modal_title}>Confirm Delete {modal_type.charAt(0).toUpperCase() + modal_type.slice(1)}</Text>               
                 <View style={styles.modal_confirmation_message_container}>
                     <Text style={styles.modal_confirmation_message}>Are you sure you want to remove this {modal_type}? This action cannot be undone.</Text>
                 </View>
-
                 <View style={styles.modal_action_container}>
                     <Pressable style={styles.modal_cancel_button} onPress={onPressCancelAction}>
                         <Text style={styles.modal_cancel_button_text}>Cancel</Text>
