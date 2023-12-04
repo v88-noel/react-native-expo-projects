@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@nonam4/react-native-bottom-sheet": "^2.2.3",
     "@react-navigation/native": "^6.1.9",
     "expo": "~49.0.18",
     "expo-dev-client": "~2.4.12",
