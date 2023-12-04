@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import { Pressable, Text, TextInput, View, Image  } from "react-native";
-import CommentItem from "./CommentItem";
-import ConfirmationModal from "./ConfirmationModal";
+import React, {useState, useRef} from "react";
+import { Pressable, Text, TextInput, View, Image, ScrollView  } from "react-native";
 import { styles } from "../../assets/styles/message_item_styles";
 import { IMAGE_FADE_DURATION } from "../../config/constants";
 import { useUpdateData } from "../../config/AppContext";
+import CommentItem from "./CommentItem";
+import ConfirmationModal from "./ConfirmationModal";
+import RBSheet from "@nonam4/react-native-bottom-sheet";
 
 export default function MessageItem({message_data, navigation, is_single_view_has_comment = false}) {
-
     const [update_message_input_value, setUpdateMessageInputValue] = useState(message_data.message_content);
     const [add_comment_input_value, setAddCommentInputValue] = useState("");
     const [is_add_comment_active, setAddCommentActive] = useState(is_single_view_has_comment);
@@ -16,6 +16,8 @@ export default function MessageItem({message_data, navigation, is_single_view_ha
     const [comment_id_to_delete, setCommentIDToDelete] = useState(null);
     const [is_confirmation_modal_visible, setConfirmationModalVisible] = useState(false);
     const [is_add_comment_input_active, setAddCommentInputActive] = useState(false);
+
+    const refRBSheet = useRef(null);
 
     const deleteMessage = useUpdateData().deleteMessage;
     const addComment = useUpdateData().addComment;
@@ -43,12 +45,17 @@ export default function MessageItem({message_data, navigation, is_single_view_ha
         setConfirmationModalVisible(false);
     }
 
+    const onPressCommentButton = () =>{
+        refRBSheet.current?.open();
+    }
+
     return (
         <Pressable style={styles.message_item} onPress={()=>navigation.navigate("Message", {data: message_data})}>
             <View style={[(is_editing_message) ? styles.no_display_element : ""]}>
                 <Text style={styles.message_text}>{message_data.message_content}</Text>
                 <View style={styles.message_actions_container}>
-                    <Pressable style={[styles.comment_button, styles.message_action]} onPress={()=>setAddCommentActive(!is_add_comment_active)}>
+                    {/* <Pressable style={[styles.comment_button, styles.message_action]} onPress={()=>setAddCommentActive(!is_add_comment_active)}> */}
+                    <Pressable style={[styles.comment_button, styles.message_action]} onPress={onPressCommentButton}>
                         <Image
                             source={  (message_data.comments.length) ? require("../../assets/action_icons/messages-bubble-square-text-active.png") : require("../../assets/action_icons/messages-bubble-square-text.png")}
                             fadeDuration={IMAGE_FADE_DURATION}
@@ -153,6 +160,52 @@ export default function MessageItem({message_data, navigation, is_single_view_ha
                 onReturnConfirmationModalResult={onReturnConfirmationModalResult} 
                 modal_type={modal_type}
             />
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={false}
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "rgba(0,0,0,.8)",
+                        elevation: 5,    
+                    },
+                    
+                    draggableIcon: {
+                        backgroundColor: "#000"
+                    }
+                }}
+            >
+                <ScrollView>
+                    <View style={styles.add_comment_container}>
+                    <TextInput
+                        multiline={true}
+                        style={[styles.comment_input, (is_add_comment_input_active) ? styles.active_input : ""]}
+                        value={add_comment_input_value}
+                        placeholder="Type your comment here"
+                        placeholderTextColor={"rgba(21, 44, 97, 0.50)"}
+                        onChangeText={(text)=>setAddCommentInputValue(text)}
+                        onFocus={()=>setAddCommentInputActive(true)}
+                        onBlur={()=>setAddCommentInputActive(true)}
+                    />
+                        <Pressable 
+                            style={[styles.add_comment_button, (add_comment_input_value.length) ? "" : styles.disabled_button]} 
+                            onPress={onSubmitAddComment}
+                        >
+                            <Text style={styles.add_comment_button_text}>Post Comment</Text>
+                        </Pressable>                  
+                    </View>
+                        {message_data.comments.map((comment_data)=>
+                            <CommentItem 
+                                message_id={message_data.id}
+                                comment_data={comment_data} 
+                                key={comment_data.id}     
+                                setConfirmationModalVisible={setConfirmationModalVisible}      
+                                setCommentIDToDelete={setCommentIDToDelete}
+                                setModalType={setModalType}               
+                            />
+                        )}
+                </ScrollView>
+            </RBSheet>
         </Pressable>
     )
 }
