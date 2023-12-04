@@ -1,8 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { styles } from "../assets/styles/message_styles";
-import { COMMENT_ID_ADDEND } from "../config/constants";
 import MessageItem from "./components/MessageItem";
 import { useData } from "../config/AppContext";
 import RBSheet from "@nonam4/react-native-bottom-sheet";
@@ -14,6 +13,10 @@ export default function Message({navigation}) {
     const refRBSheet = useRef(null);
     const [selected_message] = app_data.filter(message_object => message_object.id === received_message_data_id);
     console.log("selected_message", selected_message.comments?.length ? true: false)
+
+    useEffect(()=>{
+        RBSheet.current?.open();
+    },[])
 
     return (
         <>
@@ -30,7 +33,7 @@ export default function Message({navigation}) {
                 ref={refRBSheet}
                 closeOnDragDown={true}
                 closeOnPressMask={false}
-                customStyles={{
+                customStyles={{ 
                     wrapper: {
                         backgroundColor: "transparent"
                     },
@@ -38,8 +41,10 @@ export default function Message({navigation}) {
                         backgroundColor: "#000"
                     }
                 }}
-            >
-                <Text>hello</Text>
+            >   
+                <View>
+                    <Text>hello</Text>
+                </View>
             </RBSheet>
         </>
     )
